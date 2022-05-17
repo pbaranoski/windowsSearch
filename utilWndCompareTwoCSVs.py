@@ -29,7 +29,6 @@ def get_csv_file(lblLabel):
 
     filetypes = (
         ('csv files', '*.csv'),
-        ('All files', '*.*')
     )
 
     filename = fd.askopenfilename(
@@ -37,6 +36,11 @@ def get_csv_file(lblLabel):
         initialdir=cur_dir,
         filetypes=filetypes 
     )
+
+    # Verify filename has extension
+    arrFileParts = os.path.splitext(filename)
+    if arrFileParts[1].strip() == "":
+        filename = arrFileParts[0] + ".csv"
 
     # Assign selected filename to screen label
     lblLabel.config(text=filename)
@@ -64,7 +68,6 @@ def loadOmitChoices():
 
     # Dictionary with options
     lstOmitChoices = sFileHeader.split(",")
-    #choices = { 'Pizza','Lasagne','Fries','Fish','Potatoe'}
     tkvar.set(lstOmitChoices[0]) # set the default option
 
     popupMenu = tk.OptionMenu(MDIWnd, tkvar, *lstOmitChoices)
@@ -84,6 +87,11 @@ def sel_xlsx_file(lblLabel):
         initialdir=cur_dir,
         filetypes=filetypes 
     )
+
+    # Verify filename has extension
+    arrFileParts = os.path.splitext(filename)
+    if arrFileParts[1].strip() == "":
+        filename = arrFileParts[0] + ".xlsx"
 
     # Assign selected filename to screen label
     lblLabel.config(text=filename)
