@@ -273,6 +273,12 @@ def compareFiles():
 
         sheet.freeze_panes = 'A2'
 
+        # Set Excel cell color values
+        cellColorFillHdr = PatternFill(start_color='01B0F1', end_color='01B0F1', fill_type = "solid") 
+        cellColorFill1 = PatternFill(start_color="DDEBF6", end_color="DDEBF6", fill_type = "solid")
+        cellColorFill2 = PatternFill(start_color="E2EFDB", end_color="E2EFDB", fill_type = "solid")
+
+        # Set Excel border value
         thin = Side(border_style="thin")
         cellBorder = Border(top=thin, left=thin, right=thin, bottom=thin)
 
@@ -286,33 +292,35 @@ def compareFiles():
         # Color switch --> used in XOR operation
         iFlipColor = 1
 
-        #sheet = wrkbk.active
-        # Default rowColor
-        rowColor = "FFFF00"
 
         for row in sheet.iter_rows(min_row=1, max_row=sheet.max_row, min_col=1, max_col=sheet.max_column):
 
-            # Set Row Color
+            # Set indicator for 1st header Row
             if row[0].row == 1:
-                pass
-                # skip header
-            elif (row[0].row) % iNOFRowsWithColor == 0:
-                # XOR value --> to flip color switch back-n-forth
-                iFlipColor ^= 1
-                if iFlipColor == 0:
-                    rowColor = 'DDEBF6'
-                else:
-                    rowColor = 'E2EFDB'  
+                bHeaderRow = True
+            else:
+                bHeaderRow = False
 
-            # Color cells with Current RowColor
+            # Set Row Color
+            if bHeaderRow:
+                # skip header
+                pass
+            elif (row[0].row) % iNOFRowsWithColor == 0:
+                # Time to change colors
+                # XOR value --> to flip color switch back-n-forth; determine which color to use
+                iFlipColor ^= 1
+
+            # Set cell attributes
             for cell in row:
-                if cell.row == 1:
-                    # color header row
-                    cell.fill = PatternFill(start_color='01B0F1', end_color='01B0F1', fill_type = "solid")                
-                    cell.border = cellBorder
+                cell.border = cellBorder
+                
+                if bHeaderRow:
+                    cell.fill = cellColorFillHdr
                 else:
-                    cell.fill = PatternFill(start_color=rowColor, end_color=rowColor, fill_type = "solid")
-                    cell.border = cellBorder
+                    if iFlipColor == 0:
+                        cell.fill = cellColorFill1
+                    else:
+                        cell.fill = cellColorFill2 
 
     # Save workbook changes                                            
     wrkbk.save(fDtlDiffsXLSX)
