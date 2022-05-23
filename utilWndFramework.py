@@ -10,15 +10,17 @@ from openpyxl.styles import Fill, Color
 
 import os
 
+import CompareTwoCSVFiles 
+
 cur_dir = ""
 sFileHeader = ""
 bChoicesLoaded = False
 
-TBL_COLS1_csv = ""
-TBL_COLS2_csv = ""
+#TBL_COLS1_csv = ""
+#TBL_COLS2_csv = ""
 
-#fDtlDiffs = r"C:\Users\user\OneDrive - Apprio, Inc\Documents\PBAR\PBAR_IMPL\IMPL_CD_SGNTRS_Diffs.csv"
-fDtlDiffsXLSX = ""
+###fDtlDiffs = r"C:\Users\user\OneDrive - Apprio, Inc\Documents\PBAR\PBAR_IMPL\IMPL_CD_SGNTRS_Diffs.csv"
+#fDtlDiffsXLSX = ""
 
 
 def get_csv_file(lblLabel):
@@ -146,7 +148,7 @@ def initiateCompareFilesAction():
     sColumns = txtOmitCols.get().replace(" ","")
     lstOmitColumns = sColumns.split(",")
 
-   # compareFiles()
+    CompareTwoCSVFiles.compareFiles()
 
     ###########################################
     # Comparison has completed
