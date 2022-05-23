@@ -89,9 +89,12 @@ def sel_xlsx_file(lblLabel):
     )
 
     # Verify filename has extension
+    # and that extension is xlsx
     arrFileParts = os.path.splitext(filename)
     if arrFileParts[1].strip() == "":
         filename = arrFileParts[0] + ".xlsx"
+    elif arrFileParts[1].strip() != "xlsx":
+        filename = arrFileParts[0] + ".xlsx"     
 
     # Assign selected filename to screen label
     lblLabel.config(text=filename)
