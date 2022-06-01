@@ -90,14 +90,14 @@ def compareFiles():
     dfFile1 = pd.read_csv(TBL_COLS1_csv, dtype=str, na_filter=False) 
     dfFile1 = removeDFCols(dfFile1, ["IDR_INSRT_TS", "IDR_UPDT_TS"]) 
     #dfFile1 = removeDFCols(dfFile1, ["CLM_CYQ_SGNTR_SK", "CLM_YEAR_SGNTR_SK"])  
-    dfFile1 = removeDFCols(dfFile1, ["CLM_YEAR_SGNTR_SK", "CLM_CYQ_SGNTR_SK", "CLM_MO_SGNTR_SK", "CLM_CD_SGNTR_SK"])     
+    #dfFile1 = removeDFCols(dfFile1, ["CLM_YEAR_SGNTR_SK", "CLM_CYQ_SGNTR_SK", "CLM_MO_SGNTR_SK", "CLM_CD_SGNTR_SK"])     
     dfFile1 = removeIDRNulls(dfFile1)
     dfFile1 = trimTrailingSpaces(dfFile1)
 
     dfFile2 = pd.read_csv(TBL_COLS2_csv, dtype=str, na_filter=False) 
     dfFile2 = removeDFCols(dfFile2, ["IDR_INSRT_TS", "IDR_UPDT_TS"]) 
     #dfFile2 = removeDFCols(dfFile2, ["CLM_CYQ_SGNTR_SK", "CLM_YEAR_SGNTR_SK"])     
-    dfFile2 = removeDFCols(dfFile2, ["CLM_YEAR_SGNTR_SK", "CLM_CYQ_SGNTR_SK", "CLM_MO_SGNTR_SK", "CLM_CD_SGNTR_SK"])     
+    #dfFile2 = removeDFCols(dfFile2, ["CLM_YEAR_SGNTR_SK", "CLM_CYQ_SGNTR_SK", "CLM_MO_SGNTR_SK", "CLM_CD_SGNTR_SK"])     
     dfFile2 = removeIDRNulls(dfFile2)
     dfFile2 = trimTrailingSpaces(dfFile2)
 

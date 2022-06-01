@@ -63,15 +63,38 @@ def get_csv_file(lblLabel):
 
 def loadOmitChoices():
 
+    global tkDropdownSelection
     # Create a Tkinter variable
-    tkvar = tk.StringVar(MDIWnd)
+    tkDropdownSelection = tk.StringVar(MDIWnd)
 
     # Dictionary with options
     lstOmitChoices = sFileHeader.split(",")
-    tkvar.set(lstOmitChoices[0]) # set the default option
+    tkDropdownSelection.set(lstOmitChoices[0]) # set the default option
 
-    popupMenu = tk.OptionMenu(MDIWnd, tkvar, *lstOmitChoices)
+    popupMenu = tk.OptionMenu(MDIWnd, tkDropdownSelection, *lstOmitChoices, command=dropdownSelectionMade)
     popupMenu.grid(row=4, column=4, pady=5)
+
+
+def dropdownSelectionMade(choice):
+
+    global sDropDownSelections
+    choice = tkDropdownSelection.get()
+    #print(f"choice:{choice}")
+
+    # Get current textbox text 
+    sDropDownSelections = txtOmitCols.get()
+
+    # Add selection to textbox
+    if sDropDownSelections == "":
+        sDropDownSelections = choice
+    else:     
+        sDropDownSelections += ", " + choice 
+
+    # modify text in textbox to include new selection
+    txtOmitCols.delete(0, 'end')
+    txtOmitCols.insert(0, sDropDownSelections)
+
+    print(f"sDropDownSelections: {sDropDownSelections}")
 
 
 def sel_xlsx_file(lblLabel):
@@ -143,9 +166,14 @@ def initiateCompareFilesAction():
     TBL_COLS1_csv = txtInFile1
     TBL_COLS2_csv = txtInFile2
     fDtlDiffsXLSX = txtOutFile
-    sColumns = txtOmitCols.get().replace(" ","")
-    lstOmitColumns = sColumns.split(",")
+    #sColumns = txtOmitCols.get().replace(" ","")
+    sColumns = txtOmitCols.get().replace(",,",",")
 
+    lstOmitColumns = sColumns.split(",")
+    for i in range(0,len(lstOmitColumns)):
+        lstOmitColumns[i] = lstOmitColumns[i].strip()
+
+    print(lstOmitColumns)
     compareFiles()
 
     ###########################################
