@@ -204,6 +204,15 @@ def removeIDRNulls(df):
     return df
 
 
+def lowerCaseDFCols(df):
+
+    lstCols = df.columns.values.tolist()
+    for col in lstCols:
+        df[col] = df[col].str.lower()
+
+    return df
+
+
 def trimTrailingSpaces(df):
     
     # Remove Leading and Trailing spaces in Pandas cells    
@@ -246,12 +255,16 @@ def compareFiles():
     dfFile1 = removeDFCols(dfFile1, lstOmitColumns)     
     dfFile1 = removeIDRNulls(dfFile1)
     dfFile1 = trimTrailingSpaces(dfFile1)
+    if intChkbxIgnoreCase.get() == 1:
+        dfFile1 = lowerCaseDFCols(dfFile1)
 
     dfFile2 = pd.read_csv(TBL_COLS2_csv, dtype=str, na_filter=False) 
     dfFile2 = removeDFCols(dfFile2, ["IDR_INSRT_TS", "IDR_UPDT_TS"]) 
     dfFile2 = removeDFCols(dfFile2, lstOmitColumns)   
     dfFile2 = removeIDRNulls(dfFile2)
     dfFile2 = trimTrailingSpaces(dfFile2)
+    if intChkbxIgnoreCase.get() == 1:
+        dfFile2 = lowerCaseDFCols(dfFile2)    
 
     print("NOF dfFile1 rows:"+str(len(dfFile1.index)))
     print("NOF dfFile2 rows:"+str(len(dfFile2.index)))
@@ -368,13 +381,14 @@ def main():
     global lblInFile2Text
     global lblOutFileText
     global txtOmitCols
+    global intChkbxIgnoreCase 
 
     ####################################################
     # Build window
     ####################################################
     MDIWnd= tk.Tk()
     MDIWnd.title("Compare Two CSV Files")
-    MDIWnd.geometry("1000x300")
+    MDIWnd.geometry("1100x300")
 
     lblHdr = tk.Label(MDIWnd, text='Compare Two CSV Files')
     lblHdr.config(font=('helvetica', 14))
@@ -437,6 +451,13 @@ def main():
 
     txtOmitCols = tk.Entry (MDIWnd, width=90, justify="left") 
     txtOmitCols.grid(row=4, column=3, sticky='w')
+
+    ########################################
+    # Checkbox to do "ignore case" compares 
+    ########################################
+    intChkbxIgnoreCase=tk.IntVar()
+    ckboxIgnoreCase = tk.Checkbutton(MDIWnd, text = "Ignore Case Comparison", variable=intChkbxIgnoreCase)
+    ckboxIgnoreCase.grid(row=5, column=3, sticky='w')
 
     ###############################
     # Buttons
